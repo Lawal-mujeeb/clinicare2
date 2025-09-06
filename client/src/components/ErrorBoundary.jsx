@@ -1,13 +1,8 @@
-import { useAuth } from "@/store";
 import { useMemo } from "react";
-import { isRouteErrorResponse, useRouteError, useNavigate } from "react-router";
+import { isRouteErrorResponse, useRouteError } from "react-router";
 
 export default function ErrorBoundary() {
-  const { setAccessToken } = useAuth();
   const error = useRouteError();
-  const navigate = useNavigate();
-  // const location = useLocation();
-  // const from = location.state?.from || "/";
   if (import.meta.env.DEV) {
     console.error(error);
   }
@@ -29,13 +24,7 @@ export default function ErrorBoundary() {
   const msgs = useMemo(() => ["jwt expired", "jwt malformed"], []);
 
   const redirect = () => {
-    if (msgs.includes(details)) {
-      window.location.reload();
-    } else if (details === "An unexpected error occurred.") {
-      setAccessToken(null);
-    } else {
-      navigate("/");
-    }
+     window.location.reload();
   };
 
   return (
